@@ -28,6 +28,7 @@
 
         <div class="alert alert-success mb-3" role="alert">
             <p>主要難易度表に入っていないst0↑の譜面の中で、管理人が良いと思った譜面を集めた難易度表です</p>
+            <p>この難易度表のURLを広めるのはお控えください</p>
             <hr>
             <p class="mb-0">嵯0 = st0</p>
         </div>
@@ -35,8 +36,8 @@
 
         <!--ここから難易度表本体-->
         <div>
-            <table class="table table-light table-striped table-hover" id="table_int">
-            </table>
+            <table class="table table-light table-striped table-hover table-sm" id="table_int">
+</table>
         </div>
         <script language="javascript" type="text/javascript">
             $(document).ready(function () {
@@ -54,7 +55,7 @@
                 var obj = $("#table_int");
 
                 obj.html("");
-                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>Comment</th></tr></thead><tbody>")
+                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th></tr></thead><tbody>")
                     .appendTo(obj);
                 var obj_sep = null;
                 for (var i = 0; i < info.length; i++) {
@@ -76,17 +77,15 @@
                     $("<td width='5%'>" + mark + x + "</td>").appendTo(str);
 
                     // Title
-                    $("<td width='45%'>" +
+                    $("<td width='50%'>" +
                         "<a href='https://bms-ir.org/new/song?songmd5=" + info[
                             i]
                         .md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
 
                     // Artist
-                    $("<td width='40%'>" + info[i].artist + "</td>").appendTo(str);
-
-                    // Comment
+                    $("<td width='45%'>" + info[i].artist + "</td>").appendTo(str);
+                    
                     str.appendTo(obj);
-                    count++;
 
                 }
                 $("</tbody>").appendTo(obj);
