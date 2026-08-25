@@ -51,8 +51,8 @@
 
 function makeBMSTable(info, mark) {
     info.sort(function(a, b) {
-        var aLevel = a.level === "?" ? Infinity : Number(a.level);
-        var bLevel = b.level === "?" ? Infinity : Number(b.level);
+        var aLevel = Number(a.level);
+var bLevel = Number(b.level);
 
         // レベルが違えばレベル順
         if (aLevel !== bLevel) {
