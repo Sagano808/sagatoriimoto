@@ -50,46 +50,34 @@
             $(document).ready(function () {
                 $.getJSON($("meta[name=bmstable]").attr("content"), function (header) {
                     $.getJSON(header.data_url, function (information) {
+
+                        // レベル順に並べ替え
+                        information.sort(function (a, b) {
+                            return Number(a.level) - Number(b.level);
+                        });
+
                         makeBMSTable(information, header.symbol);
                     });
                 });
             });
 
             function makeBMSTable(info, mark) {
-
-                // レベルを0→1→2→3...の順番に並べる
-                info.sort(function (a, b) {
-                    return Number(a.level) - Number(b.level);
-                });
-
                 var x = "";
+                var ev = "";
                 var count = 0;
                 var obj = $("#table_int");
 
                 obj.html("");
 
-                // ヘッダー
-                $("<thead class='table-dark'>" +
-                    "<tr>" +
-                    "<th>Level</th>" +
-                    "<th>Title</th>" +
-                    "<th>Artist</th>" +
-                    "</tr>" +
-                    "</thead>"
-                ).appendTo(obj);
-
-                // 本体
-                var tbody = $("<tbody></tbody>");
-                tbody.appendTo(obj);
+                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th></tr></thead><tbody>")
+                    .appendTo(obj);
 
                 var obj_sep = null;
 
                 for (var i = 0; i < info.length; i++) {
 
-                    // レベルが変わった場合
                     if (x != info[i].level) {
 
-                        // 前のレベルの区切り
                         if (obj_sep != null) {
                             obj_sep.html(
                                 "<td colspan='3'>" +
@@ -101,7 +89,6 @@
                             );
                         }
 
-                        // 新しいレベルの区切り
                         obj_sep = $(
                             "<tr class='table-dark' " +
                             "style='text-align:center' " +
@@ -109,13 +96,12 @@
                             "</tr>"
                         );
 
-                        obj_sep.appendTo(tbody);
+                        obj_sep.appendTo(obj);
 
                         count = 0;
                         x = info[i].level;
                     }
 
-                    // 譜面1行
                     var str = $("<tr></tr>");
 
                     // Level
@@ -140,17 +126,18 @@
                         "</td>"
                     ).appendTo(str);
 
-                    // 譜面を追加
-                    str.appendTo(tbody);
+                    str.appendTo(obj);
 
-                    // 譜面数をカウント
                     count++;
                 }
 
-                // 最後のレベルの区切り
+                $("</tbody>").appendTo(obj);
+
                 if (obj_sep != null) {
                     obj_sep.html(
-                        "<td colspan='3'>" +
+                        "<td class='table-dark' " +
+                        "style='text-align:center' " +
+                        "colspan='3'>" +
                         "<b>" +
                         mark + x +
                         " (" + count + "譜面)" +
